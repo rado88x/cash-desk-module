@@ -29,13 +29,11 @@ public class CashierController {
     public ResponseEntity<Cashier> getCashier(@PathVariable Long id) {
         return repository.findById(id)
                 .map(cashier -> {
-                    // Force initialize and snapshot the collections:
-                    cashier.getDenominations().size();    // load them
+                    cashier.getDenominations().size();
                     cashier.getTransactions().size();     // load them, even if you don't return them
 
-                    // Replace with a safe copy so Jackson isn’t iterating a live proxy:
                     cashier.setDenominations(new HashSet<>(cashier.getDenominations()));
-                    cashier.setTransactions(new HashSet<>()); // or remove entirely: new HashSet<>(cashier.getTransactions())
+                    cashier.setTransactions(new HashSet<>());
 
                     return ResponseEntity.ok(cashier);
                 })

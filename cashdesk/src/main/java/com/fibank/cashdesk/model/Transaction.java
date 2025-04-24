@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "transactions")
@@ -19,7 +20,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cashier_uid")
     private Cashier cashier;
     @Enumerated(EnumType.STRING)
@@ -28,6 +29,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
     private LocalDateTime timestamp;
+//    private List<Denomination> denomination;
 
 
     public Transaction(Cashier cashier, Currency currency, Double amount, TransactionType transactionType, LocalDateTime timestamp) {
@@ -36,5 +38,9 @@ public class Transaction {
         this.amount = amount;
         this.transactionType = transactionType;
         this.timestamp = timestamp;
+    }
+
+    public void setType(TransactionType type) {
+        this.transactionType = type;
     }
 }

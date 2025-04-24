@@ -48,13 +48,12 @@ public class DataLoader {
                                                     CashierRepository cashierRepository) {
         return args -> {
             List<Cashier> cashiers = cashierRepository.findAll();
-            LocalDateTime now = LocalDateTime.now();
             for (Cashier cashier : cashiers) {
                 transactionRepository.saveAll(List.of(
-                        new Transaction(cashier, Currency.BGN, 100.0, TransactionType.WITHDRAW, now),
-                        new Transaction(cashier, Currency.BGN, 600.0, TransactionType.DEPOSIT, now),
-                        new Transaction(cashier, Currency.EUR, 500.0, TransactionType.WITHDRAW, now),
-                        new Transaction(cashier, Currency.EUR, 200.0, TransactionType.DEPOSIT, now)
+                        new Transaction(cashier, Currency.BGN, 100.0, TransactionType.WITHDRAW, LocalDateTime.of(2003,10,5,11,25)),
+                        new Transaction(cashier, Currency.BGN, 600.0, TransactionType.DEPOSIT, LocalDateTime.of(2005,8,5,11,25)),
+                        new Transaction(cashier, Currency.EUR, 500.0, TransactionType.WITHDRAW, LocalDateTime.of(2017,2,1,1,25)),
+                        new Transaction(cashier, Currency.EUR, 200.0, TransactionType.DEPOSIT, LocalDateTime.of(2019,7,6,1,25))
                 ));
             }
             log.info("Transactions were initialized...");

@@ -5,6 +5,8 @@ import com.fibank.cashdesk.enums.Currency;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "denominations")
 @Data
@@ -13,6 +15,9 @@ import lombok.*;
 @Getter
 @Setter
 public class Denomination {
+
+    // to keep id of transaction makes great sense
+    // if we want to follow money source especially for fake denominations
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,5 +37,18 @@ public class Denomination {
         this.currency = currency;
         this.denomination = denomination;
         this.count = count;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Denomination)) return false;
+        Denomination other = (Denomination) o;
+        return Objects.equals(id, other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
