@@ -11,16 +11,7 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-//    List<Transaction> findByCashierUid(Long cashierUid);
-//
-//    List<Transaction> findByCashierUidAndTimestampBetween(
-//            Long cashierUid, LocalDate from, LocalDate to);
-//
-//    List<Transaction> findByCashierUidAndTimestampAfter(
-//            Long cashierUid, LocalDate from);
-//
-//    List<Transaction> findByCashierUidAndTimestampBefore(
-//            Long cashierUid, LocalDate to);
+    List<Transaction> findByCashierUid(Long cashierUid);
 
     @Query("""
             SELECT t
@@ -33,6 +24,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             @Param("from") LocalDate from,
             @Param("to") LocalDate to
     );
+
+//    List<Transaction> findByCashierUidAndTimestampBetween(
+//            Long cashierUid, LocalDate from, LocalDate to);
+//
+//    List<Transaction> findByCashierUidAndTimestampAfter(
+//            Long cashierUid, LocalDate from);
+//
+//    List<Transaction> findByCashierUidAndTimestampBefore(
+//            Long cashierUid, LocalDate to);
 }
 
 
