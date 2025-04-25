@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "2f06040f-3e14-4479-b1c8-a53fc3aba557",
+		"name": "FIBank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7601212"
+	},
+	"item": [
+		{
+			"name": "operations",
+			"item": [
+				{
+					"name": "Deposit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "FIB-X-AUTH",
+								"value": "f9Uie8nNf112hx8s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cashierId\": 1001,\r\n  \"currency\": \"BGN\",\r\n  \"type\": \"DEPOSIT\",\r\n  \"amount\": 420.0,\r\n  \"denominations\": [\r\n    {\r\n      \"denomination\": 10,\r\n      \"count\": 13\r\n    },\r\n    {\r\n      \"denomination\": 20,\r\n      \"count\": 2\r\n    },\r\n      {\r\n      \"denomination\": 50,\r\n      \"count\": 5\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cash-operation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cash-operation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "FIB-X-AUTH",
+								"value": "f9Uie8nNf112hx8s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cashierId\": 1001,\r\n    \"currency\": \"BGN\",\r\n    \"type\": \"WITHDRAW\",\r\n    \"amount\": 60.0,\r\n    \"denominations\": [\r\n        {\r\n            \"denomination\": 10,\r\n            \"count\": 1\r\n        },\r\n        {\r\n            \"denomination\": 50,\r\n            \"count\": 1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cash-operation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cash-operation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "balances",
+			"item": [
+				{
+					"name": "Balance Check By CashierId",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "FIB-X-AUTH",
+								"value": "f9Uie8nNf112hx8s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cashierId\": 1001  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cash-balance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cash-balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Balance Check This Month",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "FIB-X-AUTH",
+								"value": "f9Uie8nNf112hx8s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cashierId\": 1001,\r\n    \"dateFrom\": \"2025-04-01\",\r\n    \"dateTo\": \"2025-04-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cash-balance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cash-balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Balance Check  since Millennium Started",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "FIB-X-AUTH",
+								"value": "f9Uie8nNf112hx8s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cashierId\": 1001,\r\n    \"dateFrom\": \"2001-01-01\",\r\n    \"dateTo\": \"2025-04-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cash-balance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cash-balance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CashierInfo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "FIB-X-AUTH",
+						"value": "f9Uie8nNf112hx8s",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/cashier/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"cashier",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
