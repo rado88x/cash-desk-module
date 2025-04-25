@@ -7,6 +7,8 @@ Develop a cash operations module to support deposits, withdrawals, and balance c
  [ FIBank.postman_collection.json
 ](https://github.com/rado88x/cash-desk-module/blob/main/cashdesk/FIBank.postman_collection.json)
 
+
+
 Brief project structure:
 ## 1. Root: CashdeskApplication.java
 The Spring Boot entry point (@SpringBootApplication).
