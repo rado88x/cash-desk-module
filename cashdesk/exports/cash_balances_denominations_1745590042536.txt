@@ -1,0 +1,18 @@
+Cashier ID: 1001
+Balance: {BGN=920.0, EUR=2000.0}
+Denominations:
+  BGN x [DenominationDTO(currency=BGN, denomination=50, count=15), DenominationDTO(currency=BGN, denomination=10, count=5), DenominationDTO(currency=BGN, denomination=20, count=6)]
+  EUR x [DenominationDTO(currency=EUR, denomination=100, count=10), DenominationDTO(currency=EUR, denomination=20, count=50)]
+
+Cashier ID: 1002
+Balance: {BGN=1000.0, EUR=2000.0}
+Denominations:
+  BGN x [DenominationDTO(currency=BGN, denomination=50, count=10), DenominationDTO(currency=BGN, denomination=10, count=50)]
+  EUR x [DenominationDTO(currency=EUR, denomination=100, count=10), DenominationDTO(currency=EUR, denomination=20, count=50)]
+
+Cashier ID: 1003
+Balance: {BGN=1000.0, EUR=2000.0}
+Denominations:
+  BGN x [DenominationDTO(currency=BGN, denomination=50, count=10), DenominationDTO(currency=BGN, denomination=10, count=50)]
+  EUR x [DenominationDTO(currency=EUR, denomination=100, count=10), DenominationDTO(currency=EUR, denomination=20, count=50)]
+
