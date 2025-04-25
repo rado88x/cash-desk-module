@@ -6,6 +6,8 @@ import com.fibank.cashdesk.dto.DenominationDTO;
 import com.fibank.cashdesk.dto.TransactionDTO;
 import com.fibank.cashdesk.enums.Currency;
 import com.fibank.cashdesk.enums.TransactionType;
+import com.fibank.cashdesk.exception.CashierNotFoundException;
+import com.fibank.cashdesk.exception.InsufficientFundsException;
 import com.fibank.cashdesk.model.Cashier;
 import com.fibank.cashdesk.model.Denomination;
 import com.fibank.cashdesk.model.Transaction;
@@ -13,6 +15,8 @@ import com.fibank.cashdesk.repository.CashierRepository;
 import com.fibank.cashdesk.repository.DenominationRepository;
 import com.fibank.cashdesk.repository.TransactionRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class CashDeskServiceImpl implements CashDeskService {
 
+    private static final Logger log = LoggerFactory.getLogger(CashDeskServiceImpl.class);
     private final CashierRepository cashierRepo;
     private final TransactionRepository txRepo;
     private final DenominationRepository denomRepo;
@@ -48,30 +53,35 @@ public class CashDeskServiceImpl implements CashDeskService {
                 .mapToDouble(d -> d.getDenomination() * d.getCount())
                 .sum();
         if (Double.compare(sumOfNotes, req.getAmount()) != 0) {
+            log.info("Transaction failed.");
             throw new IllegalArgumentException(
                     String.format(
                             "Sum of denominations %.2f does not match requested amount %.2f",
                             sumOfNotes, req.getAmount()
                     )
             );
+
         }
 
         // 1) Load the cashier
         Cashier cashier = cashierRepo.findById(req.getCashierId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Cashier not found: " + req.getCashierId()));
+                .orElseThrow(() -> {
+                    log.error("Cashier not found: {}", req.getCashierId());
+                    return new CashierNotFoundException("Cashier not found: " + req.getCashierId());
+                });
 
         double amount = req.getAmount();
         Currency curr = req.getCurrency();
         TransactionType type = req.getType();
 
-        // 2) Update numeric balance
+        // 2) Update balance
         if (type == TransactionType.WITHDRAW) {
             double available = (curr == Currency.BGN)
                     ? cashier.getBgnBalance()
                     : cashier.getEurBalance();
             if (available < amount) {
-                throw new IllegalArgumentException("Insufficient funds");
+                log.error("Insufficient funds.");
+                throw new InsufficientFundsException("Insufficient funds");
             }
             if (curr == Currency.BGN) {
                 cashier.setBgnBalance(available - amount);
@@ -86,6 +96,7 @@ public class CashDeskServiceImpl implements CashDeskService {
             }
         }
         cashierRepo.save(cashier);
+        log.info("Balance state of cashier with id: {} was updated.", cashier.getUid());
 
         // 3) Persist the transaction record
         Transaction tx = new Transaction();
@@ -95,44 +106,47 @@ public class CashDeskServiceImpl implements CashDeskService {
         tx.setAmount(amount);
         tx.setTimestamp(java.time.LocalDateTime.now());
         txRepo.save(tx);
+        log.info("Transaction of cashier with id: {} was completed.", cashier.getUid());
 
         // 4) Adjust denominations
         List<Denomination> existing = denomRepo
                 .findByCashierUidAndCurrency(cashier.getUid(), curr);
 
-        // Map face‐value → Denomination
-        Map<Integer, Denomination> faceMap = existing.stream()
+        // Map Denomination
+        Map<Integer, Denomination> denominationMap = existing.stream()
                 .collect(Collectors.toMap(Denomination::getDenomination,
                         Function.identity()));
 
         for (DenominationDTO incoming : req.getDenominations()) {
             int face = incoming.getDenomination();
-            int cnt = incoming.getCount();
-            Denomination denom = faceMap.get(face);
+            int count = incoming.getCount();
+            Denomination denom = denominationMap.get(face);
 
             if (type == TransactionType.DEPOSIT) {
                 if (denom != null) {
-                    denom.setCount(denom.getCount() + cnt);
+                    denom.setCount(denom.getCount() + count);
                 } else {
                     // Brand new note entry
                     denom = new Denomination();
                     denom.setCashier(cashier);
                     denom.setCurrency(curr);
                     denom.setDenomination(face);
-                    denom.setCount(cnt);
+                    denom.setCount(count);
                     existing.add(denom);
                 }
             } else { // WITHDRAW
-                if (denom == null || denom.getCount() < cnt) {
-                    throw new IllegalArgumentException(
+                if (denom == null || denom.getCount() < count) {
+                    log.error(" Insufficient notes of {}, {}.", face, curr);
+                    throw new InsufficientFundsException(
                             "Insufficient notes of " + face + " " + curr);
                 }
-                denom.setCount(denom.getCount() - cnt);
+                denom.setCount(denom.getCount() - count);
             }
         }
 
         // Persist all updates to denominations
         denomRepo.saveAll(existing);
+        log.info("Denomination set of cashier with id: {} was updated.", cashier.getUid());
     }
 
     @Override
@@ -146,7 +160,6 @@ public class CashDeskServiceImpl implements CashDeskService {
         Cashier c = cashierRepo.findById(cashierId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Cashier not found: " + cashierId));
-
 
         List<Transaction> txs;
         if (from == null && to == null) {
@@ -189,7 +202,7 @@ public class CashDeskServiceImpl implements CashDeskService {
                         Collectors.toList()
                 ));
 
-        // 6) Assemble and return
+        // 6) Prepare response and return
         CashBalanceResponseDTO resp = new CashBalanceResponseDTO();
         resp.setCashierId(c.getUid());
         resp.setCashierName(c.getName());

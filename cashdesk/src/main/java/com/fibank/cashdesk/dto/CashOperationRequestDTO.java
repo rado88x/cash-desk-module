@@ -24,7 +24,6 @@ public class CashOperationRequestDTO {
     @NotNull
     private TransactionType type;
 
-
     private double amount;
 
     @NotEmpty(message = "At least one denomination must be specified")

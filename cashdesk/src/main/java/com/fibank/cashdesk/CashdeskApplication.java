@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
 
-@SpringBootApplication (exclude = { SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class })
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class})
 public class CashdeskApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CashdeskApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CashdeskApplication.class, args);
+    }
 
 }
 

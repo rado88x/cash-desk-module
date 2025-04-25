@@ -1,7 +1,6 @@
 package com.fibank.cashdesk.controller;
 
 import com.fibank.cashdesk.model.Cashier;
-import com.fibank.cashdesk.model.Denomination;
 import com.fibank.cashdesk.repository.CashierRepository;
 
 import org.springframework.http.ResponseEntity;
@@ -9,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/cashier")
