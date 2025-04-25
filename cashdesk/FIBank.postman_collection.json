@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"cashierId\": 1001,\r\n  \"currency\": \"BGN\",\r\n  \"type\": \"DEPOSIT\",\r\n  \"amount\": 420.0,\r\n  \"denominations\": [\r\n    {\r\n      \"denomination\": 10,\r\n      \"count\": 13\r\n    },\r\n    {\r\n      \"denomination\": 20,\r\n      \"count\": 2\r\n    },\r\n      {\r\n      \"denomination\": 50,\r\n      \"count\": 5\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"cashierId\": 1001,\r\n  \"currency\": \"BGN\",\r\n  \"type\": \"DEPOSIT\",\r\n  \"amount\": 320.0,\r\n  \"denominations\": [\r\n    {\r\n      \"denomination\": 10,\r\n      \"count\": 13\r\n    },\r\n    {\r\n      \"denomination\": 20,\r\n      \"count\": 2\r\n    },\r\n      {\r\n      \"denomination\": 50,\r\n      \"count\": 3\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -58,7 +58,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cashierId\": 1001,\r\n    \"currency\": \"BGN\",\r\n    \"type\": \"WITHDRAW\",\r\n    \"amount\": 60.0,\r\n    \"denominations\": [\r\n        {\r\n            \"denomination\": 10,\r\n            \"count\": 1\r\n        },\r\n        {\r\n            \"denomination\": 50,\r\n            \"count\": 1\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"cashierId\": 1001,\r\n    \"currency\": \"BGN\",\r\n    \"type\": \"WITHDRAW\",\r\n    \"amount\": 260.0,\r\n    \"denominations\": [\r\n        {\r\n            \"denomination\": 10,\r\n            \"count\": 21\r\n        },\r\n        {\r\n            \"denomination\": 50,\r\n            \"count\": 1\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -231,6 +231,87 @@
 						"v1",
 						"cashier",
 						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Tnx History File",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "FIB-X-AUTH",
+						"value": "f9Uie8nNf112hx8s",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/1001/transactions/export",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"1001",
+						"transactions",
+						"export"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Balances for Cashiers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "FIB-X-AUTH",
+						"value": "f9Uie8nNf112hx8s",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/balances/export",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"balances",
+						"export"
 					]
 				}
 			},
