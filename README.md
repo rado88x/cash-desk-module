@@ -3,6 +3,9 @@ Develop a cash operations module to support deposits, withdrawals, and balance c
 
 # Run - Perform mvn clean install. If necessary delete target folder.  
 # H2 Inmemory database localhost:8080/h2-console  username/pass = sa/sa
+# Postman collection can be found here :
+ [: FIBank.postman_collection.json
+](https://github.com/rado88x/cash-desk-module/blob/main/cashdesk/FIBank.postman_collection.json)
 
 Brief project structure:
 ## 1. Root: CashdeskApplication.java
