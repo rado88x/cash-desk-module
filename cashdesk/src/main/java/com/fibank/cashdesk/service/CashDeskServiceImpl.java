@@ -1,7 +1,7 @@
 package com.fibank.cashdesk.service;
 
-import com.fibank.cashdesk.dto.CashBalanceResponse;
-import com.fibank.cashdesk.dto.CashOperationRequest;
+import com.fibank.cashdesk.dto.CashBalanceResponseDTO;
+import com.fibank.cashdesk.dto.CashOperationRequestDTO;
 import com.fibank.cashdesk.dto.DenominationDTO;
 import com.fibank.cashdesk.dto.TransactionDTO;
 import com.fibank.cashdesk.enums.Currency;
@@ -42,7 +42,7 @@ public class CashDeskServiceImpl implements CashDeskService {
 
     @Override
     @Transactional
-    public void performOperation(CashOperationRequest req) {
+    public void performOperation(CashOperationRequestDTO req) {
         // 0) Validate that denominations sum to the requested amount
         double sumOfNotes = req.getDenominations().stream()
                 .mapToDouble(d -> d.getDenomination() * d.getCount())
@@ -137,7 +137,7 @@ public class CashDeskServiceImpl implements CashDeskService {
 
     @Override
     @Transactional(readOnly = true)
-    public CashBalanceResponse getCashBalance(
+    public CashBalanceResponseDTO getCashBalance(
             Long cashierId,
             LocalDate from,
             LocalDate to
@@ -190,7 +190,7 @@ public class CashDeskServiceImpl implements CashDeskService {
                 ));
 
         // 6) Assemble and return
-        CashBalanceResponse resp = new CashBalanceResponse();
+        CashBalanceResponseDTO resp = new CashBalanceResponseDTO();
         resp.setCashierId(c.getUid());
         resp.setCashierName(c.getName());
         resp.setBalances(balances);

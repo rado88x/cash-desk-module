@@ -11,7 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class CashBalanceResponse {
+public class CashBalanceResponseDTO {
 
     private Long cashierId;
     private String cashierName;

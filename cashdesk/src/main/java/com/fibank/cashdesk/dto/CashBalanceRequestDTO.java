@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CashBalanceRequest {
+public class CashBalanceRequestDTO {
 
     /**
      * Optional — if omitted, all cashiers are returned (or you can handle it appropriately in service).

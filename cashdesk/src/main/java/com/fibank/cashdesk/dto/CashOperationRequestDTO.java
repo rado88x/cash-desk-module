@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CashOperationRequest {
+public class CashOperationRequestDTO {
 
     @NotNull
     private Long cashierId;

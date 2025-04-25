@@ -29,8 +29,6 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
     private LocalDateTime timestamp;
-//    private List<Denomination> denomination;
-
 
     public Transaction(Cashier cashier, Currency currency, Double amount, TransactionType transactionType, LocalDateTime timestamp) {
         this.cashier = cashier;

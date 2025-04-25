@@ -6,10 +6,7 @@ import com.fibank.cashdesk.repository.CashierRepository;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -26,11 +23,12 @@ public class CashierController {
 
     @GetMapping("/{id}")
     @Transactional(readOnly = true)
-    public ResponseEntity<Cashier> getCashier(@PathVariable Long id) {
+
+    public ResponseEntity<Cashier> getCashier(@RequestHeader("FIB-X-AUTH") String apiKey, @PathVariable Long id) {
         return repository.findById(id)
                 .map(cashier -> {
                     cashier.getDenominations().size();
-                    cashier.getTransactions().size();     // load them, even if you don't return them
+                    cashier.getTransactions().size();
 
                     cashier.setDenominations(new HashSet<>(cashier.getDenominations()));
                     cashier.setTransactions(new HashSet<>());

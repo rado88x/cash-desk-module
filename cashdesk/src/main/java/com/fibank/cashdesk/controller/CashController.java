@@ -1,18 +1,12 @@
 package com.fibank.cashdesk.controller;
 
-import com.fibank.cashdesk.dto.CashBalanceRequest;
-import com.fibank.cashdesk.dto.CashBalanceResponse;
-import com.fibank.cashdesk.dto.CashOperationRequest;
+import com.fibank.cashdesk.dto.CashBalanceRequestDTO;
+import com.fibank.cashdesk.dto.CashBalanceResponseDTO;
+import com.fibank.cashdesk.dto.CashOperationRequestDTO;
 import com.fibank.cashdesk.service.CashDeskService;
-import com.fibank.cashdesk.service.CashDeskServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -25,15 +19,13 @@ public class CashController {
     }
 
     @PostMapping("/cash-operation")
-    public ResponseEntity<CashBalanceResponse> cashOperation(
+    public ResponseEntity<CashBalanceResponseDTO> cashOperation(
             @RequestHeader("FIB-X-AUTH") String apiKey,
-            @Valid @RequestBody CashOperationRequest request
+            @Valid @RequestBody CashOperationRequestDTO request
     ) {
-        // 1. perform the deposit/withdraw
         cashDeskService.performOperation(request);
 
-        // 2. fetch the fresh balances
-        CashBalanceResponse updated = cashDeskService.getCashBalance(
+        CashBalanceResponseDTO updated = cashDeskService.getCashBalance(
                 request.getCashierId(),
                 null,
                 null
@@ -44,11 +36,11 @@ public class CashController {
     }
 
     @PostMapping("/cash-balance")
-    public ResponseEntity<CashBalanceResponse> cashBalance(
+    public ResponseEntity<CashBalanceResponseDTO> cashBalance(
             @RequestHeader("FIB-X-AUTH") String apiKey,
-            @Valid @RequestBody CashBalanceRequest request
+            @Valid @RequestBody CashBalanceRequestDTO request
     ) {
-        CashBalanceResponse resp = cashDeskService.getCashBalance(
+        CashBalanceResponseDTO resp = cashDeskService.getCashBalance(
                 request.getCashierId(),
                 request.getDateFrom(),
                 request.getDateTo()

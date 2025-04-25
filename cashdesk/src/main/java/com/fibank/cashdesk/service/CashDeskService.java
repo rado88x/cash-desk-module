@@ -1,12 +1,12 @@
 package com.fibank.cashdesk.service;
 
-import com.fibank.cashdesk.dto.CashBalanceResponse;
-import com.fibank.cashdesk.dto.CashOperationRequest;
+import com.fibank.cashdesk.dto.CashBalanceResponseDTO;
+import com.fibank.cashdesk.dto.CashOperationRequestDTO;
 
 import java.time.LocalDate;
 
 public interface CashDeskService {
-    void performOperation(CashOperationRequest request);
+    void performOperation(CashOperationRequestDTO request);
 
-    CashBalanceResponse getCashBalance(Long cashierId, LocalDate dateFrom, LocalDate dateTo);
+    CashBalanceResponseDTO getCashBalance(Long cashierId, LocalDate dateFrom, LocalDate dateTo);
 }
