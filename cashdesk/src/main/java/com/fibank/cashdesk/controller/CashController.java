@@ -57,7 +57,7 @@ public class CashController {
             cashDeskService.performOperation(request);
         } catch (InsufficientFundsException | CashierNotFoundException e) {
             log.error("Transaction failed.");
-            throw new IllegalArgumentException("Transaction failed" + e.getMessage());
+            throw new IllegalArgumentException("Transaction failed. " + e.getMessage());
         }
 
         CashBalanceResponseDTO updated = cashDeskService.getCashBalance(
